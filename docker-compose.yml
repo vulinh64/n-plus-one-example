@@ -1,0 +1,44 @@
+services:
+  n-plus-one-example:
+    image: n-plus-one-example:1.0.0
+    container_name: n-plus-one-example
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      POSTGRES_URL: jdbc:postgresql://postgresql:5432/example
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: "123456"
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    networks:
+      - n-plus-one-example-network
+
+  postgresql:
+    image: postgres:18.3-alpine3.23
+    container_name: n-plus-one-example-postgresql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "123456"
+      POSTGRES_DB: example
+    volumes:
+      - n-plus-one-example-postgresql-volume:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d example"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - n-plus-one-example-network
+
+volumes:
+  n-plus-one-example-postgresql-volume:
+    name: n-plus-one-example-postgresql-volume
+
+networks:
+  n-plus-one-example-network:
+    name: n-plus-one-example-network
+    driver: bridge

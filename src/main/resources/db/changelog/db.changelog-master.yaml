@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: changes/001-create-author-and-book.sql
+      relativeToChangelogFile: true
+  - include:
+      file: changes/002-use-sequences-and-create-dummy-data.sql
+      relativeToChangelogFile: true
+  - include:
+      file: changes/003-create-customer-and-order.sql
+      relativeToChangelogFile: true
+  - include:
+      file: changes/004-create-product-category-and-store.sql
+      relativeToChangelogFile: true

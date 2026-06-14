@@ -1,0 +1,15 @@
+application-properties:
+  p6spy.max-length: 10000
+spring:
+  application:
+    name: n-plus-one-example
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/example}
+    username: ${POSTGRES_USERNAME:postgres}
+    password: ${POSTGRES_PASSWORD:123456}
+  jpa:
+    open-in-view: false
+
+decorator.datasource.p6spy:
+  custom-appender-class: com.vulinh.utils.MyP6SpyLogging
+  logging: CUSTOM
